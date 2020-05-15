@@ -1,9 +1,15 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+jest.mock("./utils/currency", () => {
+  return {
+    convert: jest.fn().mockImplementation(() => 1.42),
+  };
+});
+
+test("renders learn react link", async () => {
+  const { findByText } = render(<App />);
+  const element = await findByText(/USD to CAD = 1.42/i);
+  expect(element).toBeInTheDocument();
 });
